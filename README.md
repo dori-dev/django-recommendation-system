@@ -2,4 +2,4 @@
 Create recommendation system using django
 
 #
-# Developing
+# Developing ...
