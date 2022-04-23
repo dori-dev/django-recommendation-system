@@ -5,6 +5,10 @@ from django.core.handlers.wsgi import WSGIRequest
 from profiles.models import Profile
 
 
+def signup_view(request: WSGIRequest):
+    return render(request, 'signup.html', {})
+
+
 def index_view(request: WSGIRequest, code: str = None):
     if code:
         profile = Profile.objects.filter(code=code)

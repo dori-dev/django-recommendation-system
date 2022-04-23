@@ -7,13 +7,13 @@
 {% block content %}
 
 {% if request.user.is_authenticated %}
-    {{ request.user }}
+{{ request.user }}
 {% else %}
-<a href="">
+<a href="{% url 'signup' %}">
     <button class="btn btn-primary">
         Create an account
     </button>
 </a>
 {% endif %}
-    
+
 {% endblock content %}
