@@ -6,14 +6,14 @@
 {% block content %}
 
 {% if my_recs %}
-<h1>Your Recommendations({{ recs_count }})</h1>
+<h3>Your Recommendations List({{ recs_count }})</h3>
 <ul>
     {% for profile in my_recs %}
     <li>{{ profile.user.username }}</li>
     {% endfor %}
 </ul>
 {% else %}
-<h1>Your Recommend Link:</h1>
+<h3>Your Recommend Link:</h3>
 <p>Get this link to your friends for his signup!</p>
 <a href="{{ code }}">{{ request.get_host }}{{ code }}</a>
 {% endif %}
