@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.query import QuerySet
 from django.contrib.auth.models import User
 from .utils import generate_code
 
@@ -15,7 +16,12 @@ class Profile(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def get_recommended_profiles(self):
-        pass
+        all_profiles: QuerySet[Profile] = Profile.objects.filter(
+            recommended_by=self.user)
+        my_recommendations = list(
+            map(lambda profile: profile.user.username, all_profiles)
+        )
+        return my_recommendations
 
     def save(self, *args, **kwargs):
         if self.code == "":
