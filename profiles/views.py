@@ -16,6 +16,7 @@ def my_recs_view(request: WSGIRequest):
     code = reverse("index", kwargs={"code": str(profile.code)})
     context = {
         "my_recs": my_recs,
+        "recs_count": my_recs.count(),
         "code": code,
     }
     return render(request, 'profiles/recommendations.html', context)

@@ -6,7 +6,7 @@
 {% block content %}
 
 {% if my_recs %}
-<h1>Your Recommendations:</h1>
+<h1>Your Recommendations({{ recs_count }})</h1>
 <ul>
     {% for profile in my_recs %}
     <li>{{ profile.user.username }}</li>
