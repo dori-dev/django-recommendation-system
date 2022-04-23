@@ -1,19 +1,44 @@
 """core views
 """
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.core.handlers.wsgi import WSGIRequest
+from django.db.models.query import QuerySet
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.contrib.auth.models import User
 from profiles.models import Profile
 
 
 def signup_view(request: WSGIRequest):
-    return render(request, 'signup.html', {})
+    profile_id = request.session.get('code')
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            if profile_id is not None:
+                rec_by_profile: QuerySet[Profile] = Profile.objects.filter(
+                    id=profile_id)
+                if rec_by_profile.exists():
+                    user: User = form.save()
+                    registered_user = User.objects.get(id=user.id)
+                    registered_profile: Profile = Profile.objects.get(
+                        user=registered_user)
+                    registered_profile.recommended_by = rec_by_profile[0].user
+                    registered_profile.save()
+            else:
+                user = form.save()
+            login(request, user)
+            return redirect("index")
+    else:
+        form = UserCreationForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'signup.html', context)
 
 
-def index_view(request: WSGIRequest, code: str = None):
+def index_view(request: WSGIRequest, code: str = False):
     if code:
         profile = Profile.objects.filter(code=code)
-        if profile.exists:
+        if profile.exists():
             request.session['code'] = profile[0].id
-    print(request.session)
-    print(request.session.get_expiry_age())
     return render(request, 'index.html', {})
