@@ -1,3 +1,5 @@
+"""auth views
+"""
 from django.shortcuts import redirect, render
 from django.db.models.query import QuerySet
 from django.core.handlers.wsgi import WSGIRequest

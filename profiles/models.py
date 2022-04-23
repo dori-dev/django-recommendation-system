@@ -1,3 +1,5 @@
+"""profiles app models
+"""
 from django.db import models
 from django.db.models.query import QuerySet
 from django.contrib.auth.models import User
@@ -15,10 +17,14 @@ class Profile(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
-    def get_recommended_profiles(self):
-        all_profiles: QuerySet[Profile] = Profile.objects.filter(
+    def get_recommended_profiles(self) -> QuerySet:
+        """get list of recommended profile by this user
+
+        Returns:
+            QuerySet[Profile]: list of recommended profile
+        """
+        return Profile.objects.filter(
             recommended_by=self.user)
-        return all_profiles
 
     def save(self, *args, **kwargs):
         if self.code == "":
