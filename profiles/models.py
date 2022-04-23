@@ -18,10 +18,7 @@ class Profile(models.Model):
     def get_recommended_profiles(self):
         all_profiles: QuerySet[Profile] = Profile.objects.filter(
             recommended_by=self.user)
-        my_recommendations = list(
-            map(lambda profile: profile.user.username, all_profiles)
-        )
-        return my_recommendations
+        return all_profiles
 
     def save(self, *args, **kwargs):
         if self.code == "":
